@@ -1,0 +1,20 @@
+type: role
+title: "Role X"
+period: "2031.03 ~ 2032.06"
+headcount: 2
+tags: [test, fixture]
+one_liner: >-
+  테스트 role의 한 줄 요약
+summary: >-
+  테스트 role의 문단 요약이다. 여러 줄로 이어져도 folded scalar가
+  공백 하나로 합쳐지는지 확인한다.
+stack:
+  - "Python"
+  - "Bash"
+key_results:
+  - "핵심 성과 1"
+  - "핵심 성과 2"
+attachments:
+  - label: "테스트 링크"
+    type: link
+    url: "https://example.com/roleX"

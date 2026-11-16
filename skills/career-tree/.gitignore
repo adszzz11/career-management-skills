@@ -1,0 +1,5 @@
+# 인스턴스 데이터(실제 개인정보) — 공개 배포 시 커밋하지 않는다.
+# 대신 design/profile.yaml.example, design/design-system.md.example을
+# 참고해서 각자 자기 것을 새로 만든다(ONBOARDING.md Phase 2).
+design/profile.yaml
+design/design-system.md

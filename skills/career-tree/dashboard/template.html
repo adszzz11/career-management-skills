@@ -1,0 +1,406 @@
+<title>커리어 아틀라스</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=Noto+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --ink: #1c2321;
+    --bg: #eef0ea;
+    --surface: #ffffff;
+    --surface-2: #f7f4ec;
+    --line: #d8d9cd;
+    --muted: #62695f;
+    --accent: #a8752c;
+    --accent-soft: #dcb877;
+    --accent-ink: #ffffff;
+    --good: #3f7d63;
+    --warn: #b5602f;
+    --shadow: 0 1px 2px rgba(28,35,33,.06), 0 8px 24px -12px rgba(28,35,33,.18);
+    /* 회사별 구분색 팔레트 — 트리 순회(JS) 인덱스로 순서대로 배정 */
+    --co-1: #a8752c; /* amber (기본 accent와 동일 계열, 첫 회사) */
+    --co-2: #3d6b96; /* slate blue */
+    --co-3: #6a5a9c; /* violet */
+    --co-4: #3f7d63; /* green */
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #eef0ea;
+      --bg: #12161a;
+      --surface: #1a1f23;
+      --surface-2: #20262b;
+      --line: #2b3237;
+      --muted: #8b9490;
+      --accent: #d8973c;
+      --accent-soft: #8a5f21;
+      --accent-ink: #1c1608;
+      --good: #5ea88a;
+      --warn: #d8824f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 32px -16px rgba(0,0,0,.6);
+      --co-1: #d8973c;
+      --co-2: #6ea8d8;
+      --co-3: #a893d8;
+      --co-4: #5ea88a;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #eef0ea;
+    --bg: #12161a;
+    --surface: #1a1f23;
+    --surface-2: #20262b;
+    --line: #2b3237;
+    --muted: #8b9490;
+    --accent: #d8973c;
+    --accent-soft: #8a5f21;
+    --accent-ink: #1c1608;
+    --good: #5ea88a;
+    --warn: #d8824f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 32px -16px rgba(0,0,0,.6);
+    --co-1: #d8973c;
+    --co-2: #6ea8d8;
+    --co-3: #a893d8;
+    --co-4: #5ea88a;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Noto Sans KR', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding-inline: max(16px, calc((100vw - 1120px) / 2));
+    padding-block: 32px 64px;
+  }
+  a { color: var(--accent); }
+  h1, h2, h3 { font-family: 'Noto Serif KR', serif; text-wrap: balance; margin: 0; }
+  .mono { font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
+  .wrap { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
+
+  /* ---------- header ---------- */
+  header.hero {
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600;
+  }
+  .hero-title { font-size: clamp(28px, 4.5vw, 44px); font-weight: 900; line-height: 1.15; }
+  .hero-sub { color: var(--muted); font-size: 15px; max-width: 62ch; line-height: 1.6; }
+  .stat-strip {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1px;
+    background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .stat {
+    background: var(--surface); padding: 18px 20px; display: flex; flex-direction: column; gap: 4px;
+  }
+  .stat .n { font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 30px; color: var(--accent); }
+  .stat .l { font-size: 12.5px; color: var(--muted); }
+
+  /* ---------- section shell ---------- */
+  section { display: flex; flex-direction: column; gap: 16px; }
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .section-head h2 { font-size: 20px; font-weight: 700; }
+  .section-head .hint { font-size: 12.5px; color: var(--muted); }
+
+  /* ---------- stack frequency ---------- */
+  .stack-bars { display: flex; flex-direction: column; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; box-shadow: var(--shadow); }
+  .stack-row { display: grid; grid-template-columns: 140px 1fr 34px; align-items: center; gap: 10px; }
+  .stack-row .name { font-size: 13px; font-family: 'JetBrains Mono', monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .stack-row .track { height: 8px; border-radius: 5px; background: var(--surface-2); overflow: hidden; }
+  .stack-row .fill { height: 100%; background: linear-gradient(90deg, var(--accent-soft), var(--accent)); border-radius: 5px; }
+  .stack-row .count { font-size: 12px; color: var(--muted); text-align: right; font-family: 'JetBrains Mono', monospace; }
+
+  /* ---------- timeline ---------- */
+  .timeline { display: flex; flex-direction: column; gap: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; box-shadow: var(--shadow); }
+  .tl-row { display: grid; grid-template-columns: 120px 1fr; gap: 12px; align-items: center; }
+  .tl-row .co { font-size: 13.5px; font-weight: 600; }
+  .tl-track { position: relative; height: 22px; background: var(--surface-2); border-radius: 6px; }
+  .tl-bar { position: absolute; top: 2px; bottom: 2px; border-radius: 5px; background: var(--accent); opacity: .85; }
+  .tl-bar span { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); font-size: 10.5px; color: var(--accent-ink); font-family: 'JetBrains Mono', monospace; white-space: nowrap; }
+
+  /* ---------- filter ---------- */
+  .filter-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  #search {
+    flex: 1; min-width: 200px; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--line);
+    background: var(--surface); color: var(--ink); font: inherit; font-size: 14px;
+  }
+  #search:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .chip-toggle {
+    padding: 7px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface);
+    color: var(--muted); font-size: 12.5px; cursor: pointer; font-family: 'JetBrains Mono', monospace;
+  }
+  .chip-toggle[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+  /* ---------- tree ---------- */
+  .company {
+    border: 1px solid var(--line); border-left: 4px solid var(--company-accent, var(--accent));
+    border-radius: 14px; background: var(--surface); box-shadow: var(--shadow); overflow: hidden;
+  }
+  .company-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; }
+  .company-head h3 { font-size: 18px; color: var(--company-accent, var(--ink)); }
+  .company-head .period { font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .company-desc { padding: 0 20px 14px; color: var(--muted); font-size: 13px; line-height: 1.6; max-width: 72ch; }
+  .group-label {
+    padding: 10px 20px 4px; font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--company-accent, var(--accent)); font-weight: 600; font-family: 'JetBrains Mono', monospace;
+  }
+  .role { border-top: 1px solid var(--line); }
+  .role-head {
+    display: flex; align-items: center; gap: 12px; padding: 14px 20px; cursor: pointer;
+    background: none; border: none; width: 100%; text-align: left; font: inherit; color: inherit;
+  }
+  .role-head:hover { background: var(--surface-2); }
+  .role-head .chevron { color: var(--muted); font-size: 12px; transition: transform .15s ease; flex-shrink: 0; }
+  .role[data-open="true"] .chevron { transform: rotate(90deg); }
+  .role-head .title { font-weight: 600; font-size: 14.5px; flex: 1; }
+  .role-head .meta { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .badge {
+    font-size: 10.5px; padding: 2px 8px; border-radius: 999px; font-family: 'JetBrains Mono', monospace;
+    border: 1px solid var(--line); color: var(--muted); white-space: nowrap;
+  }
+  .badge.n { color: var(--company-accent, var(--accent)); border-color: var(--company-accent, var(--accent-soft)); }
+  .role-body { display: none; padding: 0 20px 18px 46px; flex-direction: column; gap: 14px; }
+  .role[data-open="true"] .role-body { display: flex; }
+  .role-summary { font-size: 13px; color: var(--muted); line-height: 1.65; max-width: 74ch; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 10.5px; padding: 2px 8px; border-radius: 6px; background: var(--surface-2); color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .problems { display: flex; flex-direction: column; gap: 10px; }
+  .problem {
+    border: 1px solid var(--line); border-left: 3px solid var(--company-accent, var(--accent-soft)); border-radius: 8px;
+    padding: 10px 14px; background: var(--surface-2); display: flex; flex-direction: column; gap: 6px;
+  }
+  .problem .p-title { font-weight: 600; font-size: 13.5px; }
+  .problem .p-field { font-size: 12.5px; line-height: 1.6; color: var(--muted); }
+  .problem .p-field b { color: var(--ink); font-weight: 600; }
+
+  .empty-hint { padding: 40px 20px; text-align: center; color: var(--muted); font-size: 13px; }
+
+  footer { text-align: center; font-size: 11.5px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+</style>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">CAREER ATLAS · __USER_NAME__</div>
+    <h1 class="hero-title">경력을 지도처럼 펼쳐 본다</h1>
+    <p class="hero-sub">회사 → 역할 → 문제 3단 트리로 관리하는 경력 데이터를 한눈에 본다. 기술스택 빈도, 재직 타임라인, 그리고 실제로 부딪히고 해결한 문제들을 검색·필터링할 수 있다.</p>
+    <div class="stat-strip" id="stat-strip"></div>
+  </header>
+
+  <section>
+    <div class="section-head">
+      <h2>기술 지형도</h2>
+      <span class="hint">역할(role)별 stack에 등장한 횟수 기준, 상위 항목</span>
+    </div>
+    <div class="stack-bars" id="stack-bars"></div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>재직 타임라인</h2>
+      <span class="hint">회사별 기간 (기재된 연도 기준 상대 위치)</span>
+    </div>
+    <div class="timeline" id="timeline"></div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>회사 · 역할 · 문제</h2>
+      <span class="hint">역할을 클릭하면 그 안에서 해결한 문제가 펼쳐진다</span>
+    </div>
+    <div class="filter-row">
+      <input id="search" type="text" placeholder="회사·역할·기술·문제 내용으로 검색…" autocomplete="off">
+      <button class="chip-toggle" id="expand-all" aria-pressed="false">전체 펼치기</button>
+    </div>
+    <div id="tree"></div>
+  </section>
+
+  <footer>career-data.json · <span id="generated-at"></span></footer>
+</div>
+
+<script id="career-data" type="application/json">__CAREER_DATA_JSON__</script>
+<script>
+(function () {
+  const data = JSON.parse(document.getElementById('career-data').textContent);
+  const companies = data.companies || [];
+
+  const COMPANY_COLOR_VARS = ['--co-1', '--co-2', '--co-3', '--co-4'];
+  const companyColorVar = (index) => `var(${COMPANY_COLOR_VARS[index % COMPANY_COLOR_VARS.length]})`;
+  const companyIndex = {};
+  companies.forEach((c, i) => { companyIndex[c.id] = i; });
+
+  document.getElementById('generated-at').textContent = 'generated ' + (data.generated_at || '').slice(0, 19).replace('T', ' ');
+
+  // ---------- stats ----------
+  const roles = companies.flatMap(c => c.roles || []);
+  const problems = roles.flatMap(r => r.problems || []);
+  const stackSet = new Set();
+  roles.forEach(r => (r.stack || []).forEach(s => stackSet.add(s)));
+
+  const stats = [
+    { n: companies.length, l: '회사' },
+    { n: roles.length, l: '역할 / 프로젝트' },
+    { n: problems.length, l: '해결한 문제' },
+    { n: stackSet.size, l: '고유 기술스택' },
+  ];
+  document.getElementById('stat-strip').innerHTML = stats.map(s =>
+    `<div class="stat"><div class="n mono">${s.n}</div><div class="l">${s.l}</div></div>`
+  ).join('');
+
+  // ---------- stack frequency ----------
+  const freq = {};
+  roles.forEach(r => (r.stack || []).forEach(s => {
+    const key = s.trim();
+    if (!key) return;
+    freq[key] = (freq[key] || 0) + 1;
+  }));
+  const topStack = Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 14);
+  const maxCount = topStack.length ? topStack[0][1] : 1;
+  document.getElementById('stack-bars').innerHTML = topStack.length ? topStack.map(([name, count]) => `
+    <div class="stack-row">
+      <div class="name" title="${escapeHtml(name)}">${escapeHtml(name)}</div>
+      <div class="track"><div class="fill" style="width:${(count / maxCount * 100).toFixed(0)}%"></div></div>
+      <div class="count">${count}</div>
+    </div>`).join('') : '<div class="empty-hint">stack 데이터 없음</div>';
+
+  // ---------- timeline ----------
+  function parseYearMonth(period) {
+    if (!period) return null;
+    const m = period.match(/(\d{4})\.(\d{2})/);
+    if (!m) return null;
+    return parseInt(m[1], 10) * 12 + parseInt(m[2], 10);
+  }
+  const now = new Date();
+  const nowIdx = now.getFullYear() * 12 + (now.getMonth() + 1);
+  const spans = companies.map((c, index) => {
+    const start = parseYearMonth(c.period);
+    const isCurrent = /현재/.test(c.period || '');
+    const end = isCurrent ? nowIdx : (function () {
+      const m = (c.period || '').match(/~\s*(\d{4})\.(\d{2})/);
+      return m ? parseInt(m[1], 10) * 12 + parseInt(m[2], 10) : start;
+    })();
+    return { title: c.title, period: c.period, start, end: end || start, color: companyColorVar(index) };
+  }).filter(s => s.start);
+  const minStart = Math.min(...spans.map(s => s.start), nowIdx);
+  const maxEnd = Math.max(...spans.map(s => s.end), nowIdx);
+  const totalSpan = Math.max(maxEnd - minStart, 1);
+  document.getElementById('timeline').innerHTML = spans.length ? spans.map(s => {
+    const left = (s.start - minStart) / totalSpan * 100;
+    const width = Math.max((s.end - s.start) / totalSpan * 100, 2);
+    return `<div class="tl-row">
+      <div class="co">${escapeHtml(s.title)}</div>
+      <div class="tl-track"><div class="tl-bar" style="left:${left.toFixed(1)}%;width:${width.toFixed(1)}%;background:${s.color}"><span>${escapeHtml(s.period || '')}</span></div></div>
+    </div>`;
+  }).join('') : '<div class="empty-hint">기간 데이터 없음</div>';
+
+  // ---------- tree ----------
+  const treeEl = document.getElementById('tree');
+
+  function groupRolesByGroup(companyRoles) {
+    const groups = new Map();
+    companyRoles.forEach(r => {
+      const key = r.group || '';
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(r);
+    });
+    return groups;
+  }
+
+  function renderProblem(p) {
+    return `<div class="problem">
+      <div class="p-title">${escapeHtml(p.title || '')}</div>
+      ${p.issue ? `<div class="p-field"><b>문제</b> · ${escapeHtml(p.issue)}</div>` : ''}
+      ${p.resolution ? `<div class="p-field"><b>해결</b> · ${escapeHtml(p.resolution)}</div>` : ''}
+      ${p.result ? `<div class="p-field"><b>결과</b> · ${escapeHtml(p.result)}</div>` : ''}
+    </div>`;
+  }
+
+  function renderRole(r) {
+    const tags = (r.tags && r.tags.length ? r.tags : r.stack || []).slice(0, 8);
+    return `<div class="role" data-open="false" data-search="${escapeAttr(roleSearchBlob(r))}">
+      <button class="role-head" type="button">
+        <span class="chevron">▶</span>
+        <span class="title">${escapeHtml(r.title || r.id)}</span>
+        <span class="meta">
+          ${r.period ? `<span class="badge mono">${escapeHtml(r.period)}</span>` : ''}
+          <span class="badge n">${(r.problems || []).length} 문제</span>
+        </span>
+      </button>
+      <div class="role-body">
+        ${r.summary || r.one_liner ? `<div class="role-summary">${escapeHtml(r.summary || r.one_liner)}</div>` : ''}
+        ${tags.length ? `<div class="tag-row">${tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>` : ''}
+        ${(r.problems || []).length ? `<div class="problems">${r.problems.map(renderProblem).join('')}</div>` : ''}
+      </div>
+    </div>`;
+  }
+
+  function roleSearchBlob(r) {
+    const parts = [r.title, r.summary, r.one_liner, (r.tags || []).join(' '), (r.stack || []).join(' ')];
+    (r.problems || []).forEach(p => parts.push(p.title, p.issue, p.resolution, p.result));
+    return parts.filter(Boolean).join(' ').toLowerCase();
+  }
+
+  function renderCompany(c, index) {
+    const groups = groupRolesByGroup(c.roles || []);
+    let body = '';
+    groups.forEach((roleList, groupKey) => {
+      if (groupKey) body += `<div class="group-label">${escapeHtml(groupKey)}</div>`;
+      body += roleList.map(renderRole).join('');
+    });
+    return `<div class="company" style="--company-accent:${companyColorVar(index)}">
+      <div class="company-head">
+        <h3>${escapeHtml(c.title || c.id)}</h3>
+        ${c.period ? `<span class="period mono">${escapeHtml(c.period)}</span>` : ''}
+      </div>
+      ${c.description ? `<div class="company-desc">${escapeHtml(c.description)}</div>` : ''}
+      ${body}
+    </div>`;
+  }
+
+  treeEl.innerHTML = companies.length ? companies.map(renderCompany).join('') : '<div class="empty-hint">데이터 없음</div>';
+
+  // interactions: expand/collapse
+  treeEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.role-head');
+    if (!btn) return;
+    const role = btn.closest('.role');
+    const open = role.getAttribute('data-open') === 'true';
+    role.setAttribute('data-open', open ? 'false' : 'true');
+  });
+
+  const expandAllBtn = document.getElementById('expand-all');
+  let allExpanded = false;
+  expandAllBtn.addEventListener('click', () => {
+    allExpanded = !allExpanded;
+    document.querySelectorAll('.role').forEach(r => r.setAttribute('data-open', allExpanded ? 'true' : 'false'));
+    expandAllBtn.setAttribute('aria-pressed', String(allExpanded));
+    expandAllBtn.textContent = allExpanded ? '전체 접기' : '전체 펼치기';
+  });
+
+  // search filter
+  const searchInput = document.getElementById('search');
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim().toLowerCase();
+    document.querySelectorAll('.role').forEach(r => {
+      const match = !q || r.getAttribute('data-search').includes(q);
+      r.style.display = match ? '' : 'none';
+      if (q && match) r.setAttribute('data-open', 'true');
+    });
+    document.querySelectorAll('.company').forEach(companyEl => {
+      const anyVisible = Array.from(companyEl.querySelectorAll('.role')).some(r => r.style.display !== 'none');
+      companyEl.style.display = anyVisible ? '' : 'none';
+    });
+  });
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+  function escapeAttr(s) { return escapeHtml(s); }
+})();
+</script>

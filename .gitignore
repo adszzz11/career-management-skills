@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.DS_Store
+
+# 실제 개인정보(인스턴스 데이터) — 이중 방어. skills/career-tree/.gitignore가
+# 이미 막지만, 저장소 어디에 복사되든 걸리게 루트에도 둔다.
+design/profile.yaml
+design/design-system.md
+**/design/profile.yaml
+**/design/design-system.md
+
+# Personal work stays local
+career-data/

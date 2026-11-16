@@ -1,0 +1,27 @@
+{
+  "name": "career-tree",
+  "metadata": {
+    "description": "Company -> role -> problem tree for career history, with resume/career-description/cover-letter generation and a JD-matching workflow",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "career-tree",
+      "source": "./",
+      "description": "Company -> role -> problem tree for managing career history as structured data, with resume/career-description/cover-letter generation, a dashboard, and a JD-matching workflow.",
+      "version": "0.1.0",
+      "keywords": [
+        "career",
+        "resume",
+        "cover-letter",
+        "job-search",
+        "yaml",
+        "dashboard"
+      ],
+      "category": "workflow"
+    }
+  ],
+  "owner": {
+    "name": "Career Management"
+  }
+}
